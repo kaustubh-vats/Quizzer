@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher's Dashboard</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/header.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/card.css')}}"/>
+</head>
+<body>
+    <nav id="header" class="helloheader">
+        <div class="logo">Teacher Panel</div>
+        <ul class="nav-links">
+            <li><a href="/leaderboard">Leaderboards</a></li>
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="/profile">{{username}}</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+    <div class="grid">
+        <a href="\addnew">
+            <div class="coursecard">
+                <img src="{{url_for('static',filename='imgs/addnew.svg')}}" alt="Couse Image failed to display" class="card-img">
+                <p class="course-desc">Click to Add New</p>
+                <p class="course-name">Add new couse</p>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript" src="{{url_for('static',filename='js/teacher.js')}}"></script>
+    <script type="text/javascript">
+        var myVar = myFunc({{course_list|safe}})
+    </script>
+    
+</body>
+</html>

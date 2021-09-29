@@ -1,0 +1,38 @@
+.grid{
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 360px);
+    justify-content: center;
+    overflow-x: hidden;
+}
+.coursecard{
+    margin: 15px;
+    box-shadow: 0px 0px 10px;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+.card-img{
+    height: 20vh;
+    width: 100%;
+}
+.course-desc{
+    text-align: center;
+    width: 100%;
+    padding: 5px 0px;
+    margin: 0;
+}
+.course-name{
+    text-align: center;
+    width: 100%;
+    background-color: #2C3E50;
+    color: white;
+    padding: 5px 0;
+    margin: 0;
+    outline: none;
+    border: none;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}

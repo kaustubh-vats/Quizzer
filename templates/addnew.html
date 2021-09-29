@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/addnew.css')}}">
+    <title>AddNew Course</title>
+</head>
+<body>
+    <button type="button" onclick="delCourse()">Delete Course</button>
+    <div class="details">
+        <input type="text" id="name" placeholder="Name of the course" value="{{name}}"/>
+        <input type="text" id="desc" placeholder="Dscription of the course" value="{{desc}}"/>
+        <input type="Number" id="timelimit" placeholder="Enter Time Limit in Minutes" value="{{timelimit}}"/>
+    </div>
+    <div class="main-content"></div>
+    <button type="button" onclick="addNewDom()" class="add-button">+</button>
+    <br>
+    <button type="button" onclick="submitForm()" class="submit-button">Submit</button>
+    <script type="text/javascript" src="{{url_for('static',filename='js/addnew.js')}}"></script>
+    <script type="text/javascript">
+        var myVar = myFunc({{data|safe}});
+        var var2 = setCourseId({{courseId}})
+    </script>
+</body>
+</html>

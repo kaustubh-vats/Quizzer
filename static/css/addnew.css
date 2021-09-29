@@ -1,0 +1,38 @@
+input{
+    width: 90vw;
+    margin: 2vh 5vw;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+}
+button{
+    background-color: #3788D8;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 10px;
+    margin: 10px 5vw;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.add-button{
+    border-radius: 50%;
+    padding: 15px 20px;
+}
+button:hover{
+    transform: scale(1.2);
+    background-color: rgb(47, 255, 158);
+}
+label{
+    margin: 2vh 5vw;
+}
+a{
+    text-decoration: none;
+    color: white;
+    background-color: #3788D8;
+    padding: 10px 20px;
+    margin: 20px 5vw;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+}

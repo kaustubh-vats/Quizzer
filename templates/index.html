@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student's Dashboard</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/card.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/header.css')}}"/>
+</head>
+<body>
+    <nav id="header" class="helloheader">
+        <div class="logo">Student Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="/leaderboard">Leaderboards</a></li>
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="/profile">{{username}}</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+    <div class="grid">
+    </div>
+    <script type='text/javascript' src="{{url_for('static',filename='js/student.js')}}"></script>
+    <script type='text/javascript'>
+        var myVar = myFunc({{data|safe}})
+    </script>
+</body>
+</html>

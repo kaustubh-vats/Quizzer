@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/design-login.css')}}"/>
+    <title>Login</title>
+</head>
+<body>
+    <div id="container">
+        <form method="POST" id="form">
+            <label for="username">UserName</label>
+            <input id="username" name="username" type="text" placeholder="Enter your Username" required>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter your Password" required>
+            <input type="submit" value="Login">
+            <p>New User? <a href="\register">Register</a> </p>
+        </form>
+    </div>
+    <script type="text/javascript" src = "{{url_for('static',filename='js/loginback.js')}}"></script>
+    <script type="text/javascript">
+        err = myFunc({{data|tojson}});
+    </script>
+</body>
+</html>
