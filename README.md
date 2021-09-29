@@ -41,21 +41,21 @@ A Quiz App for teachers and student to stay connected with studies. <br />
 ## You can add modify this project for improvements but don't harm any database or any other things which might cause problems
 
 # Screenshots
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss1.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss1.jpeg?raw=true)
 ## Login / Register
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss2.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss2.jpeg?raw=true)
 ## Student's Dashboard
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss3.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss3.jpeg?raw=true)
 ## Test Description
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss4.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss4.jpeg?raw=true)
 ## Question During Test
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss5.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss5.jpeg?raw=true)
 ## Leaderboards
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss6.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss6.jpeg?raw=true)
 ## User Profile
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss7.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss7.jpeg?raw=true)
 ## Creating Quiz
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss8.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss8.jpeg?raw=true)
 ## Teacher's Panel
-![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/master/screenshots/ss9.jpeg?raw=true)
+![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss9.jpeg?raw=true)
 ## 404 Not Found
