@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, session
 import json
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
-
+import random
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/courseapp.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -312,6 +312,7 @@ def startTest():
             if marks == None:
                 for x in mcqs:
                     dTemp = {}
+                    dTemp['id'] = x.id
                     dTemp['question'] = x.question
                     dTemp['option1'] = x.option1
                     dTemp['option2'] = x.option2
@@ -321,10 +322,11 @@ def startTest():
                     dTemp['points'] = x.points
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
-                    
+                random.shuffle(data)
                 return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName)
             else:
                 dTemp = {}
+                dTemp['id'] = 'demo'
                 dTemp['question'] = 'demo'
                 dTemp['option1'] = 'demo'
                 dTemp['option2'] = 'demo'
@@ -346,11 +348,16 @@ def saveResponse():
     if 'user' in session:
         if request.method == 'POST':
             data = request.json
-            print(data)
-            marksdata = MarksData(studentId=session['id'], studentName=session['user'], courseId = data['courseId'], score = data['score'])
+            courseId = data['courseId']
+            scr = 0
+            for itr in data['resp']:
+                quizdata = QuizData.query.filter_by(id = itr['id']).first()
+                if(quizdata.correct_option == itr['resp']):
+                    scr = scr + quizdata.points
+            marksdata = MarksData(studentId=session['id'], studentName=session['user'], courseId = courseId, score = scr)
             db.session.add(marksdata)
             db.session.commit()
-            return {'response':'success'}
+            return {'response':'success','score':str(scr)}
         else:
             return {'response':'fail'}
     else:

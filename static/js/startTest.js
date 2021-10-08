@@ -1,42 +1,55 @@
 var questions = [];
-var options1 = [];
-var options2 = [];
-var options3 = [];
-var options4 = [];
-var corrects = [];
-var userResponses = [];
-var points = [];
-var tags = [];
 var tLimit = 0;
 var curr = 0;
 var question, option1, option2, option3, option4, pointsDiv, tagdiv;
-var tags = [];
 var flg;
 var option1label, option2label, option3label, option4label;
 var mainDiv, testDiv;
 var courseId;
+var nextbutton, prevbutton;
+var elem = document.documentElement;
+var warn = 3;
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+    return array;
+}
 function myFunc(params){
+    nextbutton = document.querySelector('#next');
+    prevbutton = document.querySelector('#previous');
     if(params.length == 0){
         var button = document.getElementById('startTest');
         button.disabled = true;
         alert('No question Found for this test');
     } else {
+        questions = []
         for(let i=0;i<params.length;i++)
         {
-            questions.push(params[i]['question']);
-            options1.push(params[i]['option1']);
-            options2.push(params[i]['option2']);
-            options3.push(params[i]['option3']);
-            options4.push(params[i]['option4']);
-            corrects.push(params[i]['correct']);
-            points.push(params[i]['points']);
-            tags.push(params[i]['tags']);
-            userResponses.push(0);
+            myJSON = {
+                "question":params[i]['question'],
+                "options":{
+                    "1":params[i]['option1'],
+                    "2":params[i]['option2'],
+                    "3":params[i]['option3'],
+                    "4":params[i]['option4']
+                },
+                "points":params[i]['points'],
+                "tags":params[i]['tags'],
+                "response":0,
+                "id":params[i]['id']
+            }
+            questions.push(myJSON)
         }
     }
     return 'kaustubh';
 }
 function myTimeL(params){
+    if(params)
     tLimit = params;
     return 'kaustubh';
 }
@@ -67,12 +80,12 @@ function startTest(){
     tagdiv = document.getElementById('tagDiv');
     pointsDiv = document.getElementById('points');
 
-    question.innerHTML = questions[curr];
-    option1label.innerHTML = options1[curr];
-    option2label.innerHTML = options2[curr];
-    option3label.innerHTML = options3[curr];
-    option4label.innerHTML = options4[curr];
-    pointsDiv.innerHTML = "Points : "+points[curr];
+    question.innerHTML = questions[curr]['question'];
+    option1label.innerHTML = questions[curr]['options']["1"];
+    option2label.innerHTML = questions[curr]['options']["2"];
+    option3label.innerHTML = questions[curr]['options']["3"];
+    option4label.innerHTML = questions[curr]['options']["4"];
+    pointsDiv.innerHTML = "Points : "+questions[curr]['points'];
     removeAllChildNodes(tagdiv);
 
     let p = document.createElement('p');
@@ -80,7 +93,7 @@ function startTest(){
     p.innerHTML = "Tags : ";
     tagdiv.appendChild(p);
 
-    const myArr = tags[curr].split(" ");
+    const myArr = questions[curr]['tags'].split(" ");
     for(let i=0;i<myArr.length;i++){
         let tag = document.createElement('p');
         tag.setAttribute('class','tags');
@@ -90,31 +103,40 @@ function startTest(){
 
     mainDiv = document.getElementById('main-basic');
     testDiv = document.getElementById('main-test');
-
+    prevbutton.style.display="none";
     mainDiv.style.display="none";
     testDiv.style.display="block";
-
+    
+    if(tLimit!=0)
     activateTimer(tLimit);
+    document.addEventListener("visibilitychange", warningGenerator);
+    openFullscreen();
 }
 function previous(){
     if(curr > 0){
+        nextbutton.style.display = "inline-block";
         let ansdiv = document.querySelector('input[name="option"]:checked');
         let ans = "0";
         if(ansdiv != null)
            ans = ansdiv.value;
-        userResponses[curr] = parseInt(ans);
+        questions[curr]['response'] = parseInt(ans);
         curr--;
-        if(userResponses[curr]!=0){
-            let selectedOption = document.getElementById('option'+userResponses[curr]);
+        if(curr == 0){
+            prevbutton.style.display = "none";
+        } else {
+            prevbutton.style.display = "inline-block";
+        }
+        if(questions[curr]['response']!=0){
+            let selectedOption = document.getElementById('option'+questions[curr]['response']);
             selectedOption.checked = true;
         } else {
             let selectedOption = document.getElementById('option'+1);
             selectedOption.checked = false;
             selectedOption = document.getElementById('option'+2);
             selectedOption.checked = false;
-            selectedOption = document.getElementById('option'+1);
+            selectedOption = document.getElementById('option'+3);
             selectedOption.checked = false;
-            selectedOption = document.getElementById('option'+1);
+            selectedOption = document.getElementById('option'+4);
             selectedOption.checked = false;
         }
         removeAllChildNodes(tagdiv);
@@ -124,41 +146,47 @@ function previous(){
         p.innerHTML = "Tags : ";
         tagdiv.appendChild(p);
 
-        const myArr = tags[curr].split(" ");
+        const myArr = questions[curr]['tags'].split(" ");
         for(let i=0;i<myArr.length;i++){
             let tag = document.createElement('p');
             tag.setAttribute('class','tags');
             tag.innerHTML = myArr[i];
             tagdiv.appendChild(tag);
         }
-        question.innerHTML = questions[curr];
-        option1label.innerHTML = options1[curr];
-        option2label.innerHTML = options2[curr];
-        option3label.innerHTML = options3[curr];
-        option4label.innerHTML = options4[curr];
-        pointsDiv.innerHTML = "Points : "+points[curr];
+        question.innerHTML = questions[curr]['question'];
+        option1label.innerHTML = questions[curr]['options']["1"];
+        option2label.innerHTML = questions[curr]['options']["2"];
+        option3label.innerHTML = questions[curr]['options']["3"];
+        option4label.innerHTML = questions[curr]['options']["4"];
+        pointsDiv.innerHTML = questions[curr]['points'];
     }
     return 'kaustubh'
 }
 function nextQuest(){
     if(curr < questions.length-1){
+        prevbutton.style.display = "inline-block";
         let ansdiv = document.querySelector('input[name="option"]:checked');
         let ans = "0";
         if(ansdiv != null)
            ans = ansdiv.value;
-        userResponses[curr] = parseInt(ans);
+        questions[curr]['response'] = parseInt(ans);
         curr++;
-        if(userResponses[curr]!=0){
-            var selectedOption = document.getElementById('option'+userResponses[curr]);
+        if(curr == questions.length - 1){
+            nextbutton.style.display = "none";
+        } else {
+            nextbutton.style.display = "inline-block";
+        }
+        if(questions[curr]['response']!=0){
+            var selectedOption = document.getElementById('option'+questions[curr]['response']);
             selectedOption.checked = true;
         } else {
             let selectedOption = document.getElementById('option'+1);
             selectedOption.checked = false;
             selectedOption = document.getElementById('option'+2);
             selectedOption.checked = false;
-            selectedOption = document.getElementById('option'+1);
+            selectedOption = document.getElementById('option'+3);
             selectedOption.checked = false;
-            selectedOption = document.getElementById('option'+1);
+            selectedOption = document.getElementById('option'+4);
             selectedOption.checked = false;
         }
         removeAllChildNodes(tagdiv);
@@ -168,19 +196,19 @@ function nextQuest(){
         p.innerHTML = "Tags : ";
         tagdiv.appendChild(p);
 
-        const myArr = tags[curr].split(" ");
+        const myArr = questions[curr]['tags'].split(" ");
         for(let i=0;i<myArr.length;i++){
             let tag = document.createElement('p');
             tag.setAttribute('class','tags');
             tag.innerHTML = myArr[i];
             tagdiv.appendChild(tag);
         }
-        question.innerHTML = questions[curr];
-        option1label.innerHTML = options1[curr];
-        option2label.innerHTML = options2[curr];
-        option3label.innerHTML = options3[curr];
-        option4label.innerHTML = options4[curr];
-        pointsDiv.innerHTML = "Points : "+points[curr];
+        question.innerHTML = questions[curr]['question'];
+        option1label.innerHTML = questions[curr]['options']["1"];
+        option2label.innerHTML = questions[curr]['options']["2"];
+        option3label.innerHTML = questions[curr]['options']["3"];
+        option4label.innerHTML = questions[curr]['options']["4"];
+        pointsDiv.innerHTML = questions[curr]['points'];
     }
     return 'kaustubh';
 }
@@ -191,18 +219,20 @@ function removeAllChildNodes(parent) {
 }
 async function submitTest(){
     let ansdiv = document.querySelector('input[name="option"]:checked');
-        let ans = "0";
-        if(ansdiv != null)
-           ans = ansdiv.value;
-    userResponses[curr] = parseInt(ans);
-    let score = 0;
-    for(let i=0;i<corrects.length;i++){
-        if(corrects[i]==userResponses[i]){
-            score+=points[i];
+    let ans = "0";
+    if(ansdiv != null)
+       ans = ansdiv.value;
+    questions[curr]['response'] = parseInt(ans);
+    myRespArr = []
+    for(let i=0;i<questions.length;i++){
+        myTempArr = {
+            "id":questions[i]['id'],
+            "resp":questions[i]['response']
         }
+        myRespArr.push(myTempArr)
     }
     myarr = {
-        "score":score,
+        "resp":myRespArr,
         "courseId": courseId 
     }
     await fetch('/saveResponse', {
@@ -221,8 +251,10 @@ async function submitTest(){
             var button = document.getElementById('startTest');
             button.disabled = true;
             var scrP = document.getElementById('score');
-            scrP.innerHTML = "Score: "+score;
+            scrP.innerHTML = "Score: "+text['score'];
             mainDiv.style.display = "flex";
+            document.removeEventListener("visibilitychange", warningGenerator);
+            closeFullscreen();
         } else {
             alert('Failed to save');
         }
@@ -249,3 +281,35 @@ async function activateTimer(time){
         }
     }, 1000);
 }
+
+function warningGenerator() {
+    if (document.visibilityState != "visible") {
+        warn--;
+        if(warn <= 0){
+            submitTest();
+            alert("You are navigating out of the test.. We have submitted your response");
+        } else {
+            alert("You are navigating out of the test "+warn+" warnings left");
+        }
+    }
+}
+
+function openFullscreen() {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { 
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+  }
+  
+  function closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { 
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { 
+      document.msExitFullscreen();
+    }
+  }
