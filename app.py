@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, url_for, redirect, session
+from flask import Flask, send_from_directory, render_template, request, url_for, redirect, session
 import json
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
 import random
+import os
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/courseapp.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -59,7 +60,11 @@ def home():
         else:
             return redirect(url_for('dashboard'))
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('login'))  
+
+@app.route('/favicon.ico') 
+def favicon(): 
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon/favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/register',methods = ['POST','GET'])
