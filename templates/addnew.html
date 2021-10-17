@@ -10,9 +10,9 @@
 <body>
     <button type="button" onclick="delCourse()">Delete Course</button>
     <div class="details">
-        <input type="text" id="name" placeholder="Name of the course"/>
-        <input type="text" id="desc" placeholder="Dscription of the course"/>
-        <input type="Number" id="timelimit" placeholder="Enter Time Limit in Minutes"/>
+        <input type="text" id="name" placeholder="Name of the course" value="{{name}}"/>
+        <input type="text" id="desc" placeholder="Dscription of the course" value="{{desc}}"/>
+        <input type="Number" id="timelimit" placeholder="Enter Time Limit in Minutes" value="{{timelimit}}"/>
     </div>
     <div class="main-content"></div>
     <button type="button" onclick="addNewDom()" class="add-button">+</button>
@@ -22,7 +22,6 @@
     <script type="text/javascript">
         var myVar = myFunc({{data|safe}});
         var var2 = setCourseId({{courseId}})
-        var var3 = setCourseDesc("{{name}}","{{desc}}",{{timelimit}});
     </script>
 </body>
 </html>

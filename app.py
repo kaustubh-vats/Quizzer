@@ -235,9 +235,7 @@ def saveCourse():
                 if(courseData.author != session['user']):
                     return {"response":"failed"}
                 courseData.name = data['name']
-                db.session.commit()
                 courseData.description == data['description']
-                db.session.commit()
                 courseData.timeLimit = int(float(data['timelimit']))
                 db.session.commit()
                 QuizData.query.filter_by(courseId = int(data['id'])).delete()

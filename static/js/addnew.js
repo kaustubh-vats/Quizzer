@@ -13,13 +13,6 @@ function setCourseId(param){
     mainC.appendChild(button);
     return 'kaustubh';
 }
-function setCourseDesc(param1, param2, param3){
-    if(param1 == undefined || param1 == "") return ;
-    document.getElementById("name").value = param1;
-    document.getElementById("desc").value = param2;
-    document.getElementById("timelimit").value = param3;
-    return 'kaustubh';
-}
 function myFunc(params){
     mainC = document.querySelector('.main-content');
     for(let i=0;i<params.length;i++){
