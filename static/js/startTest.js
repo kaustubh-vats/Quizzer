@@ -20,7 +20,7 @@ window.speechSynthesis.onvoiceschanged = function() {
         else if(voice.name.includes("(Natural) - English (United States)")){
             speech.voice = voice;
         }
-        else if(voice.name.includes("Heera - English (India)")){
+        else if(voice.name.includes("English (India)")){
             speech.voice = voice;
         }
     })
@@ -166,7 +166,7 @@ function previous(){
         option2label.innerHTML = questions[curr]['options']["2"];
         option3label.innerHTML = questions[curr]['options']["3"];
         option4label.innerHTML = questions[curr]['options']["4"];
-        pointsDiv.innerHTML = questions[curr]['points'];
+        pointsDiv.innerHTML = "Points : "+questions[curr]['points'];
     }
     return 'kaustubh'
 }
@@ -216,7 +216,7 @@ function nextQuest(){
         option2label.innerHTML = questions[curr]['options']["2"];
         option3label.innerHTML = questions[curr]['options']["3"];
         option4label.innerHTML = questions[curr]['options']["4"];
-        pointsDiv.innerHTML = questions[curr]['points'];
+        pointsDiv.innerHTML = "Points : "+questions[curr]['points'];
     }
     return 'kaustubh';
 }
@@ -281,13 +281,15 @@ async function activateTimer(time){
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        if(hours<10) hours = "0"+hours;
+        if(minutes<10) minutes = "0"+minutes;
+        if(seconds<10) seconds = "0"+seconds;
         document.getElementById("timelimit").innerHTML =  hours + ":"  + minutes + ":" + seconds;
         if (distance < 0) {
           clearInterval(x);
           submitTest();
           alert('Time Over');
         }
-        console.log(distance);
         if(distance >= 59000 && distance <= 60000){
             speech.text = "You have one minutes remaining";
             window.speechSynthesis.speak(speech);
