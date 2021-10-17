@@ -8,6 +8,8 @@ A Quiz App for teachers and student to stay connected with studies. <br />
 + Timelimit to complete test
 + Question tags for every question (optional)
 + One attempt per quiz
++ Warning if you try to naavigate out of the test
++ Voice warnings
 + Encrypted Passwords (**SHA-256**)
 
 # Technologies Used
