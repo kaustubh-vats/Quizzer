@@ -9,16 +9,23 @@ var courseId;
 var nextbutton, prevbutton;
 var elem = document.documentElement;
 var warn = 3;
-function shuffle(array) {
-    let currentIndex = array.length,  randomIndex;
-    while (currentIndex != 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
-    }
-    return array;
-}
+var speech = new SpeechSynthesisUtterance();
+window.speechSynthesis.onvoiceschanged = function() {
+    let voices = window.speechSynthesis.getVoices();
+    voices.forEach((voice,i)=>{
+        if(voice.name.includes("(Natural) - English (India)")){
+            speech.voice = voice;
+            return;
+        }
+        else if(voice.name.includes("(Natural) - English (United States)")){
+            speech.voice = voice;
+        }
+        else if(voice.name.includes("Heera - English (India)")){
+            speech.voice = voice;
+        }
+    })
+};
+
 function myFunc(params){
     nextbutton = document.querySelector('#next');
     prevbutton = document.querySelector('#previous');
@@ -46,6 +53,7 @@ function myFunc(params){
             questions.push(myJSON)
         }
     }
+    
     return 'kaustubh';
 }
 function myTimeL(params){
@@ -279,6 +287,15 @@ async function activateTimer(time){
           submitTest();
           alert('Time Over');
         }
+        console.log(distance);
+        if(distance >= 59000 && distance <= 60000){
+            speech.text = "You have one minutes remaining";
+            window.speechSynthesis.speak(speech);
+        }
+        else if(distance >= 299000 && distance <= 300000){
+            speech.text = "You have five minutes remaining";
+            window.speechSynthesis.speak(speech);
+        }
     }, 1000);
 }
 
@@ -287,9 +304,13 @@ function warningGenerator() {
         warn--;
         if(warn <= 0){
             submitTest();
+            speech.text = "You are regularily navigating out of the test. Despite our reminders. so, we have submitted your response";
+            window.speechSynthesis.speak(speech);
             alert("You are navigating out of the test.. We have submitted your response");
         } else {
-            alert("You are navigating out of the test "+warn+" warnings left");
+            speech.text = "Don't try to navigate out of the test, You have "+(warn-1)+" warnings remaining";
+            window.speechSynthesis.speak(speech);
+            alert("You are navigating out of the test "+(warn-1)+" warnings left");
         }
     }
 }
@@ -302,9 +323,9 @@ function openFullscreen() {
     } else if (elem.msRequestFullscreen) {
       elem.msRequestFullscreen();
     }
-  }
+}
   
-  function closeFullscreen() {
+function closeFullscreen() {
     if (document.exitFullscreen) {
       document.exitFullscreen();
     } else if (document.webkitExitFullscreen) { 
@@ -312,4 +333,4 @@ function openFullscreen() {
     } else if (document.msExitFullscreen) { 
       document.msExitFullscreen();
     }
-  }
+}
