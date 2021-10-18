@@ -21,7 +21,9 @@
     <div class="main-content"></div>
     <button type="button" onclick="addNewDom()" class="add-button">+</button>
     <br>
+    <p id="link-generated"></p>
     <button type="button" onclick="submitForm()" class="submit-button">Submit</button>
+    <button type="button" onclick="generatelink()">Get Link</button>
     <script type="text/javascript" src="{{url_for('static',filename='js/addnew.js')}}"></script>
     <script type="text/javascript">
         var myVar = myFunc({{data|safe}});

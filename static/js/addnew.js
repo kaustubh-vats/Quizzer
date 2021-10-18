@@ -136,6 +136,20 @@ function myFunc(params){
     }
     return 'kaustubh';
 }
+function generatelink(){
+    if(myCourseId == undefined){
+        alert('Save course to generate link');
+    } else {
+        let link = "";
+        if(window.location.port){
+            link = window.location.protocol+"//"+window.location.hostname + ":" + window.location.port +"/startTest?course=" + myCourseId; 
+        } else {
+            link = window.location.protocol+"//"+window.location.hostname +"/startTest?course=" + myCourseId; 
+        }
+        document.getElementById("link-generated").innerHTML = link + "<br /> Copied to clipboard";
+        navigator.clipboard.writeText(link);
+    }
+}
 function deletequestion(elem){
     var data = elem.getAttribute('data-myval');
     
