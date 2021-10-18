@@ -13,6 +13,29 @@ function setCourseId(param){
     mainC.appendChild(button);
     return 'kaustubh';
 }
+function setSchedule(params){
+    if(params==undefined || params=="") return;
+    date = Date.parse(params+"Z");
+    myDate = new Date(date);
+    let year = myDate.getFullYear();
+    let month = myDate.getMonth()+1;
+    if(month<10){
+        month = "0"+month;
+    }
+    let day = myDate.getDate();
+    if(day <10){
+        day = "0"+day;
+    }
+    let hours = myDate.getHours();
+    if(hours<10){
+        hours = "0"+hours;
+    }
+    let minutes = myDate.getMinutes();
+    if(minutes<10){
+        minutes = "0"+minutes;
+    }
+    document.getElementById('myLocalDate').value = year+"-"+month+"-"+day+"T"+hours+":"+minutes;
+}
 function myFunc(params){
     mainC = document.querySelector('.main-content');
     for(let i=0;i<params.length;i++){
@@ -233,6 +256,8 @@ function submitForm(){
     var title = document.getElementById("name");
     var desc = document.getElementById("desc");
     var timelimit = document.getElementById("timelimit");
+    var instruction = document.getElementById("instruction");
+    var warnings = document.getElementById("warnings");
     if(title.value == ""){
         alert('Course Name is missing');
         return;
@@ -242,7 +267,12 @@ function submitForm(){
         return;
     }
     if(timelimit.value == ""){
-        alert('timelimit is missing');
+        alert('timelimit is missing... If you don\'t want to have a timelimit then enter 0');
+        return;
+    }
+    if(warnings.value == ""){
+        alert('warning is missing... If you don\'t want to have warning based test then enter -1');
+        return;
     }
     for(let i=0;i<id.length;i++)
     {
@@ -270,14 +300,22 @@ function submitForm(){
         };
         myjsonarray.push(myJson);
     }
-    
+    let schedule = (new Date()).toISOString();
+    date = document.getElementById("myLocalDate").value;
+    if(date!=undefined && date != ""){
+        myDate = new Date(date);
+        schedule = myDate.toISOString();
+    } 
     if(myCourseId != undefined){
         myarr = {
             'data':myjsonarray,
             'name': title.value,
             'timelimit' :timelimit.value,
             'description':desc.value,
-            'id':myCourseId
+            'id':myCourseId,
+            'instruction':instruction.innerHTML,
+            'warnings':warnings.value,
+            'schedule':schedule
         }
         sendReq(myarr);
     }
@@ -286,7 +324,10 @@ function submitForm(){
             'data':myjsonarray,
             'name': title.value,
             'timelimit' :timelimit.value,
-            'description':desc.value
+            'description':desc.value,
+            'instruction':instruction.innerHTML,
+            'warnings':warnings.value,
+            'schedule':schedule
         }
         sendReq(myarr);
     }
@@ -311,7 +352,7 @@ async function delCourse(){
             }
         });
     } else {
-        console.log('This course is not saved yet');
+        alert('This course is not saved yet');
     }
 }
 async function sendReq(myarr){
@@ -327,6 +368,7 @@ async function sendReq(myarr){
     }).then(function (text) {
         if(text['response']=='success'){
             alert('Success');
+            window.location.replace("/teacher");
         } else {
             alert('Failed to save');
         }

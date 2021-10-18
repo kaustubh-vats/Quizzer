@@ -84,11 +84,13 @@ input[type='radio']{
     background: #2C3E50;
     color: white;
     padding: 30px;
-    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100vh;
+    width: 50vw;
+    flex: 50%;
 }
 .centered{
     text-align: center;
@@ -125,4 +127,17 @@ a:hover, button:hover {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+textarea{
+    width: 40vw; 
+    height: 120px; 
+    overflow: scroll;
+}
+.flex-main{
+    display: flex;
+}
+.web-cam{
+    width: 50vw;
+    height: 100vh;
+    flex: 50%;
 }

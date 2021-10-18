@@ -35,14 +35,23 @@
         </div>
     </div>
     <div id="main-basic">
-        <div id="container">
-            <p class='centered' id="score">Score: Not Attempted</p>
-            <p class='centered' id="tlimit">Time Limit : {{timelimit}} minutes</p>
-            <p class='centered' id="author">Course Author : {{author}}</p>
-            <button id="startTest" type="button" onclick="startTest()">Start Test</button>
-            <a href="/leaderboard?course={{courseId}}">
-                leaderboard
-            </a>
+        <div class="flex-main">
+            <div class="web-cam">
+
+            </div>
+            <div id="container">
+                <p class='centered' id="score">Score: Not Attempted</p>
+                <p class='centered' id="tlimit">Time Limit : {{timelimit}} minutes</p>
+                <p class='centered' id="warnings">Total Warnings : {{warnings}}</p>
+                <p class='centered' id="author">Course Author : {{author}}</p>
+                <div class="centered" id="instruction">
+                    <textarea readonly>{{instruction}}</textarea>
+                </div>
+                <button id="startTest" type="button" onclick="startTest()">Start Test</button>
+                <a href="/leaderboard?course={{courseId}}">
+                    leaderboard
+                </a>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="{{url_for('static',filename='js/startTest.js')}}"></script>
@@ -51,6 +60,7 @@
         var tlt = myTimeL({{timelimit}});
         var scr = myScr({{marks}});
         var cId = myCourseId({{courseId}});
+        var warnGet = myWarnings({{warnings}});
     </script>
 </body>
 </html>

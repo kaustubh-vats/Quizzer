@@ -8,7 +8,7 @@ var mainDiv, testDiv;
 var courseId;
 var nextbutton, prevbutton;
 var elem = document.documentElement;
-var warn = 3;
+var warn = -1;
 var speech = new SpeechSynthesisUtterance();
 window.speechSynthesis.onvoiceschanged = function() {
     let voices = window.speechSynthesis.getVoices();
@@ -25,7 +25,16 @@ window.speechSynthesis.onvoiceschanged = function() {
         }
     })
 };
-
+function myWarnings(params){
+    if(params != undefined && params != ""){
+        warn = params;
+        if(warn < 0){
+            document.getElementById("warnings").style.display = "none";
+        }
+    } else {
+        document.getElementById("warnings").style.display = "none";
+    }
+}
 function myFunc(params){
     nextbutton = document.querySelector('#next');
     prevbutton = document.querySelector('#previous');
@@ -53,12 +62,14 @@ function myFunc(params){
             questions.push(myJSON)
         }
     }
-    
     return 'kaustubh';
 }
 function myTimeL(params){
-    if(params)
-    tLimit = params;
+    if(params){
+        tLimit = int(params);
+    } else {
+        document.getElementById("tlimit").innerHTML = "No TimeLimit";
+    }
     return 'kaustubh';
 }
 function myScr(params){
@@ -112,12 +123,20 @@ function startTest(){
     mainDiv = document.getElementById('main-basic');
     testDiv = document.getElementById('main-test');
     prevbutton.style.display="none";
+    if(questions.length <= 1){
+        nextbutton.style.display = "none";
+    }
     mainDiv.style.display="none";
     testDiv.style.display="block";
     
-    if(tLimit!=0)
-    activateTimer(tLimit);
-    document.addEventListener("visibilitychange", warningGenerator);
+    if(tLimit > 0) {
+        activateTimer(tLimit);
+    } else {
+        document.getElementById("timelimit").innerHTML = "No Time Limit";
+    }
+    if(warn>=0){
+        document.addEventListener("visibilitychange", warningGenerator);
+    }
     openFullscreen();
 }
 function previous(){
@@ -312,27 +331,42 @@ function warningGenerator() {
         } else {
             speech.text = "Don't try to navigate out of the test, You have "+(warn-1)+" warnings remaining";
             window.speechSynthesis.speak(speech);
-            alert("You are navigating out of the test "+(warn-1)+" warnings left");
+            alert("Warning #"+(warn)+"\nYou are navigating out of the test "+(warn-1)+" warnings left");
         }
     }
 }
 
 function openFullscreen() {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) { 
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
-    }
+    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+        (document.msFullscreenElement && document.msFullscreenElement !== null);
+    
+    if(!isInFullScreen){
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { 
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
+    }   
 }
   
 function closeFullscreen() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) { 
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { 
-      document.msExitFullscreen();
+    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+        (document.msFullscreenElement && document.msFullscreenElement !== null);
+
+    if(isInFullScreen){
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { 
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { 
+          document.msExitFullscreen();
+        }
     }
+    
 }

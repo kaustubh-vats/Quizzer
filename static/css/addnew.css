@@ -1,4 +1,4 @@
-input{
+textarea, input{
     width: 90vw;
     margin: 2vh 5vw;
     outline: none;
@@ -24,6 +24,9 @@ button:hover{
     background-color: rgb(47, 255, 158);
 }
 label{
+    margin: 2vh 5vw;
+}
+#label{
     margin: 2vh 5vw;
 }
 a{

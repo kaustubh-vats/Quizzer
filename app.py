@@ -1,9 +1,11 @@
+import warnings
 from flask import Flask, send_from_directory, render_template, request, url_for, redirect, session
 import json
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
 import random
 import os
+import datetime
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/courseapp.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -25,6 +27,9 @@ class CourseData(db.Model):
     author = db.Column(db.String(200),nullable=False)
     authorId = db.Column(db.Integer,nullable=False)
     timeLimit = db.Column(db.Integer,default=0)
+    instruction = db.Column(db.String(2000),nullable=False)
+    schedule = db.Column(db.DateTime, nullable = True)
+    warnings = db.Column(db.Integer, default=-1)
 
     def __repr__(self) -> str:
         return f"{self.id} : {self.name}"
@@ -133,7 +138,11 @@ def dashboard():
             dTemp['author'] = x.author
             dTemp['authoId'] = x.authorId
             dTemp['id'] = x.id
-            data.append(dTemp)
+            if(x.schedule):
+                if x.schedule <= datetime.datetime.utcnow():
+                    data.append(dTemp)
+            else:
+                data.append(dTemp)
         return render_template('index.html',username=session['user'],data=json.dumps(data))
     else:
         return redirect(url_for('login'))
@@ -199,7 +208,7 @@ def addnew():
         course = request.args.get('course')
         data = []
         if course == None:
-            return render_template('addnew.html',data=data,name="",timelimit="",desc="",courseId="")
+            return render_template('addnew.html',data=data,name="",timelimit="",desc="",courseId="",instruction="",warnings="",schedule=datetime.datetime.utcnow())
         else:
             coursedata = CourseData.query.filter_by(id=course).first();
             if(coursedata.author == session['user']):
@@ -215,7 +224,7 @@ def addnew():
                     dTemp['points'] = x.points
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
-                return render_template('addnew.html',data=data,name=coursedata.name,timelimit=coursedata.timeLimit,desc=coursedata.description,courseId=str(course))
+                return render_template('addnew.html',data=data,name=coursedata.name,timelimit=coursedata.timeLimit,desc=coursedata.description,courseId=str(course),instruction=coursedata.instruction, schedule=coursedata.schedule, warnings=coursedata.warnings)
             else:
                 err = 'Unauthorized Access'
                 render_template("error.html",error=err)
@@ -237,11 +246,20 @@ def saveCourse():
                 courseData.name = data['name']
                 courseData.description = data['description']
                 courseData.timeLimit = int(float(data['timelimit']))
+                schedule = datetime.datetime.utcnow()
+                if data['schedule']!="":
+                    schedule = datetime.datetime.fromisoformat(data['schedule'][:-1]+"+00:00")
+                courseData.schedule = schedule
+                courseData.warnings = data['warnings']
+                courseData.instruction = data['instruction']
                 db.session.commit()
                 QuizData.query.filter_by(courseId = int(data['id'])).delete()
                 db.session.commit()
             else:
-                courseData = CourseData(name=data['name'], description=data['description'], author=session['user'], authorId = session['id'],timeLimit = int(float(data['timelimit'])))
+                schedule = datetime.datetime.utcnow()
+                if data['schedule']!="":
+                    schedule = datetime.datetime.fromisoformat(data['schedule'][:-1]+"+00:00")
+                courseData = CourseData(name=data['name'], description=data['description'], author=session['user'], authorId = session['id'],timeLimit = int(float(data['timelimit'])), instruction = data['instruction'], schedule = schedule, warnings = data['warnings'])
                 db.session.add(courseData)
                 db.session.commit()
 
@@ -306,9 +324,16 @@ def startTest():
             if courseData == None:
                 err = 'No Such Course Found'
                 return render_template('error.html',error=err)
+            if courseData.schedule > datetime.datetime.utcnow():
+                err = 'Course is not started yet'
+                return render_template('error.html',error=err)
             duration = courseData.timeLimit
             courseName = courseData.name
             author = courseData.author
+            instruction = courseData.instruction
+            warnings = courseData.warnings
+            if instruction == "":
+                instruction = "No Extra Instruction"
             mcqs = QuizData.query.filter_by(courseId = courseId).all()
             data = []
             marks = MarksData.query.filter_by(courseId=courseId, studentName=session['user']).first()
@@ -326,7 +351,7 @@ def startTest():
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
                 random.shuffle(data)
-                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName)
+                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings)
             else:
                 dTemp = {}
                 dTemp['id'] = 'demo'
@@ -339,7 +364,7 @@ def startTest():
                 dTemp['points'] = 'demo'
                 dTemp['tags'] = 'demo'
                 data.append(dTemp)
-                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName)
+                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings)
         else:
             err = 'Unauthorized Acceess'
             return render_template('error.html',error=err)

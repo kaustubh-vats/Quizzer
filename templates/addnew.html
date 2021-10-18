@@ -10,9 +10,13 @@
 <body>
     <button type="button" onclick="delCourse()">Delete Course</button>
     <div class="details">
-        <input type="text" id="name" placeholder="Name of the course" value="{{name}}"/>
-        <input type="text" id="desc" placeholder="Dscription of the course" value="{{desc}}"/>
-        <input type="Number" id="timelimit" placeholder="Enter Time Limit in Minutes" value="{{timelimit}}"/>
+        <input type="text" id="name" placeholder="Name of the course" value="{{name}}" max="200"/>
+        <input type="text" id="desc" placeholder="Dscription of the course" value="{{desc}}" max="2000"/>
+        <input type="Number" id="timelimit" placeholder="Enter Time Limit in Minutes (0 for no timelimit)" value="{{timelimit}}"/>
+        <input type="Number" id="warnings" placeholder="Enter Number of warnings" value="{{warnings}}"/>
+        <textarea id="instruction" placeholder="Enter Test Instructions" name="textarea">{{instruction}}</textarea>
+        <p id="label">Schedule Test (optional)</p>
+        <input type="datetime-local" id="myLocalDate">
     </div>
     <div class="main-content"></div>
     <button type="button" onclick="addNewDom()" class="add-button">+</button>
@@ -21,7 +25,8 @@
     <script type="text/javascript" src="{{url_for('static',filename='js/addnew.js')}}"></script>
     <script type="text/javascript">
         var myVar = myFunc({{data|safe}});
-        var var2 = setCourseId({{courseId}})
+        var var2 = setCourseId({{courseId}});
+        var var3 = setSchedule("{{schedule}}");
     </script>
 </body>
 </html>
