@@ -100,7 +100,7 @@ function myFunc(params) {
 }
 function myTimeL(params) {
     if (params) {
-        tLimit = int(params);
+        tLimit = Number(params);
     } else {
         document.getElementById("tlimit").innerHTML = "No TimeLimit";
     }

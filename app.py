@@ -332,8 +332,7 @@ def startTest():
             author = courseData.author
             instruction = courseData.instruction
             warnings = courseData.warnings
-            if instruction == "":
-                instruction = "No Extra Instruction"
+            description = courseData.description
             mcqs = QuizData.query.filter_by(courseId = courseId).all()
             data = []
             marks = MarksData.query.filter_by(courseId=courseId, studentName=session['user']).first()
@@ -351,7 +350,7 @@ def startTest():
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
                 random.shuffle(data)
-                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings)
+                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description=description)
             else:
                 dTemp = {}
                 dTemp['id'] = 'demo'
@@ -364,7 +363,7 @@ def startTest():
                 dTemp['points'] = 'demo'
                 dTemp['tags'] = 'demo'
                 data.append(dTemp)
-                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings)
+                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description = description)
         else:
             err = 'Unauthorized Acceess'
             return render_template('error.html',error=err)

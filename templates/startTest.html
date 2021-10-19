@@ -34,21 +34,24 @@
             <button type="button" id="submitTest" onclick="submitTest()">Submit</button>
             
             <div class="small-cam">
-                <video id="small-video"></video>
+                <video id="small-video" muted></video>
             </div>
         </div>
     </div>
     <div id="main-basic">
         <div class="flex-main">
             <div class="web-cam">
-                <video id="full-video"></video>
+                <video id="full-video" muted></video>
             </div>
             <div id="container">
                 <p class='centered' id="score">Score: Not Attempted</p>
                 <p class='centered' id="tlimit">Time Limit : {{timelimit}} minutes</p>
                 <p class='centered' id="warnings">Total Warnings : {{warnings}}</p>
                 <p class='centered' id="author">Course Author : {{author}}</p>
-                <div class="centered" id="instruction">
+                <div>
+                    <textarea readonly>Course Description : {{description}}</textarea>
+                </div>
+                <div id="instruction">
                     <textarea readonly>{{instruction}}</textarea>
                 </div>
                 <button id="startTest" type="button" onclick="startTest()">Start Test</button>

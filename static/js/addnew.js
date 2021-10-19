@@ -327,7 +327,7 @@ function submitForm(){
             'timelimit' :timelimit.value,
             'description':desc.value,
             'id':myCourseId,
-            'instruction':instruction.innerHTML,
+            'instruction':instruction.value,
             'warnings':warnings.value,
             'schedule':schedule
         }
@@ -339,7 +339,7 @@ function submitForm(){
             'name': title.value,
             'timelimit' :timelimit.value,
             'description':desc.value,
-            'instruction':instruction.innerHTML,
+            'instruction':instruction.value,
             'warnings':warnings.value,
             'schedule':schedule
         }
