@@ -227,11 +227,11 @@ def addnew():
                 return render_template('addnew.html',data=data,name=coursedata.name,timelimit=coursedata.timeLimit,desc=coursedata.description,courseId=str(course),instruction=coursedata.instruction, schedule=coursedata.schedule, warnings=coursedata.warnings)
             else:
                 err = 'Unauthorized Access'
-                render_template("error.html",error=err)
+                return render_template("error.html",error=err), 401
         
     else:
         err = 'Unauthorized Access'
-        render_template("error.html",error=err)
+        return render_template("error.html",error=err), 401
 
 @app.route('/save',methods = ['POST'])
 def saveCourse():
@@ -366,7 +366,7 @@ def startTest():
                 return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description = description)
         else:
             err = 'Unauthorized Acceess'
-            return render_template('error.html',error=err)
+            return render_template('error.html',error=err), 401
     else:
         return redirect(url_for('login'))
 

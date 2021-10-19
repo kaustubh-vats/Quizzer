@@ -1,0 +1,17 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+    overflow: hidden;
+}
+.img{
+    height: 300px;
+}
+.warning{
+    text-align: center;
+    font-size: 30px;
+    color: red;
+}
