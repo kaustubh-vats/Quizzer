@@ -74,7 +74,6 @@ input[type='radio']{
     width: 100vw;
     background-image: url(/static/imgs/bgLogin.jpg);
     background-size: cover;
-    overflow: hidden;
     background-repeat: no-repeat;
     display: flex;
     justify-content: center;
@@ -83,7 +82,6 @@ input[type='radio']{
 #container{
     background: #2C3E50;
     color: white;
-    padding: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -140,4 +138,37 @@ textarea{
     width: 50vw;
     height: 100vh;
     flex: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.small-cam{
+    height: 100px;
+    width: 100px;
+    background-color: #2C3E50;
+}
+#full-video{
+    width: 50vw;
+    height: auto;
+}
+#small-video{
+    width: 100px;
+    height: 100px;
+}
+@media screen and (max-width: 900px) {
+    .flex-main{
+        display: block;
+    }
+    .web-cam{
+        width: 100vw;
+    }
+    #container{
+        width: 100vw;
+    }
+    #main-basic{
+        height: 200vh;
+    }
+    #full-video{
+        width: 100vw;
+    }
 }
