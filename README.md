@@ -11,6 +11,7 @@ A Quiz App for teachers and student to stay connected with studies. <br />
 + Warning if you try to naavigate out of the test
 + Voice warnings
 + Encrypted Passwords (**SHA-256**)
++ Dummy Webcam
 
 # Technologies Used
 + Flask, Python
