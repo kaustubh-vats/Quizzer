@@ -94,3 +94,20 @@ a{
 .warning{
     color: #df2359;
 }
+
+footer{
+    position: absolute;
+    bottom: 0;
+}
+footer div{
+    height: 20px;
+    width: 100vw;
+    background: linear-gradient(transparent, black);
+}
+.my-link{
+    display: block;
+    width: 100vw;
+    background: none;
+    background-color: black;
+    text-align: center;
+}

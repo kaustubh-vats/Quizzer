@@ -3,7 +3,6 @@ const navSlide = () =>{
     const nav = document.querySelectorAll('.nav-links li');
     const bar = document.querySelector('.nav-links');
     burger.addEventListener('click',()=>{
-        console.log("hello");
         bar.classList.toggle('nav-active');
         nav.forEach((link,index) => {
             if(link.style.animation){
