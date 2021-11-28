@@ -44,6 +44,7 @@ A Quiz App for teachers and student to stay connected with studies. <br />
 ## You can add modify this project for improvements but don't harm any database or any other things which might cause problems
 
 # Screenshots
+
 ![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss1.jpeg?raw=true)
 ## Login / Register
 ![Image not found](https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ss2.jpeg?raw=true)
