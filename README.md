@@ -1,3 +1,5 @@
+<img src="https://github.com/kaustubh-vats/Quizzer/blob/main/screenshots/ui.png?raw=true" width="100%" alt="UI Image">
+
 # Quizzer
 A Quiz App for teachers and student to stay connected with studies. <br />
 [Click here](https://quizzzer.herokuapp.com/) to use the project
