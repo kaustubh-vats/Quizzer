@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/courseapp.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-app.secret_key = 'ab-akshit-course-site-cd'
+app.secret_key = 'ab-kaustubh-quizzer-site-cd'
 
 class LoginData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
