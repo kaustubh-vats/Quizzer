@@ -7,7 +7,7 @@ import random
 import os
 import datetime
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/courseapp.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/quizapp.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.secret_key = 'ab-kaustubh-quizzer-site-cd'
