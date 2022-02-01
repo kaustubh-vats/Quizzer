@@ -334,7 +334,7 @@ def profile():
 
 @app.route('/startTest')
 def startTest():
-    update_time = datetime.datetime.now()
+    update_time = datetime.datetime.now().isoformat()
     if 'user' in session:
         if session['category'] == 'student':
             courseId = request.args.get('course')
