@@ -1,4 +1,12 @@
 var rank,username,points,container;
+document.addEventListener('DOMContentLoaded',()=>{
+    const grid = document.querySelector('.main-content');
+    const footer = document.querySelector('footer');
+    const header = document.querySelector('#header');
+    if(grid != null){
+        grid.style.minHeight = `calc(100vh - ${(footer.offsetHeight + header.offsetHeight)}px)`;
+    }
+});
 function myFunc(params){
     var base = document.querySelector('.main-content');
     var warn = null;

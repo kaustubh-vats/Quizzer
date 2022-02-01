@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{url_for('static',filename='css/profile.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/footer.css')}}"/>
     <title>{{username}}</title>
 </head>
 <body>
@@ -14,5 +16,12 @@
         <h3>Marks: {{marks}}</h3>
         <h3>Course attended: {{courses}}</h3>
     </div>
+    
+    <footer class="abs_footer">
+        <div class="footer_p">Made with<div class="heart_container"><i class="fas fa-heart"></i></div> by <a class="footer-name" target="_blank" href="https://kaustubhvats-portfolio.netlify.app">Kaustubh Vats</a></div>
+        <div>
+            <a href="https://github.com/kaustubh-vats/quizzer" target="_blank" class="github-link"><i class="fab fa-github"></i> Github Repo</a>
+        </div>
+    </footer>
 </body>
 </html>

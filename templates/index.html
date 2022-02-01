@@ -7,6 +7,8 @@
     <title>Student's Dashboard</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/card.css')}}"/>
     <link rel="stylesheet" href="{{url_for('static',filename='css/header.css')}}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/footer.css')}}"/>
 </head>
 <body>
     <nav id="header" class="helloheader">
@@ -24,11 +26,12 @@
     </nav>
     <div class="grid">
     </div>
-    <footer>
+    <footer class="abs_bottom">
+        <div class="shadow"></div>
+        <div class="footer_p">Made with<div class="heart_container"><i class="fas fa-heart"></i></div> by <a class="footer-name" target="_blank" href="https://kaustubhvats-portfolio.netlify.app">Kaustubh Vats</a></div>
         <div>
-
+            <a href="https://github.com/kaustubh-vats/quizzer" target="_blank" class="github-link"><i class="fab fa-github"></i> Github Repo</a>
         </div>
-        <a target="_blank" class="my-link" href="https://github.com/kaustubh-vats">Kaustubh Vats</a>
     </footer>
     <script type='text/javascript' src="{{url_for('static',filename='js/student.js')}}"></script>
     <script type='text/javascript' src="{{url_for('static',filename='js/header.js')}}"></script>

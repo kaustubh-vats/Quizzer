@@ -1,0 +1,101 @@
+footer{
+    width: 100vw;
+    background-color: #000000;
+    margin: 0;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+}
+footer div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+footer::after{
+    position: absolute;
+    top: -10px;
+    content: '';
+    left: 0;
+    width: 100vw;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, transparent, #000000);
+    /* background: #df2359; */
+}
+.footer-name{
+    text-decoration: none;
+    color: #ffffff;
+}
+.github-link{
+    text-decoration: none;
+    color: #ffffff;
+}
+.footer-name:hover{
+    text-decoration: underline;
+    color: #df2359;
+}
+.github-link:hover{
+    text-decoration: underline;
+    color: #df2359;
+}
+.fa-heart{
+    margin: 0px 4px;
+    color: #df2359;
+    transition: 2s;
+    animation: heartBeat 2s ease-in-out infinite;
+}
+.fa-github{
+    color: #df2359;
+}
+.abs_footer{
+    position: absolute;
+    bottom: 0;
+}
+.abs_bottom{
+    position: relative;
+    background: #2C3E50;
+}
+.abs_bottom::after{
+    position: absolute;
+    top: -10px;
+    content: '';
+    left: 0;
+    width: 100vw;
+    height: 10px;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, transparent, #2C3E50);
+}
+.heart_container{
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer_p{
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+@keyframes heartBeat{
+    0%{
+        font-size: 15px;
+    }
+    50%{
+        font-size: 19px;
+    }
+    100%{
+        font-size: 15px;
+    }
+}

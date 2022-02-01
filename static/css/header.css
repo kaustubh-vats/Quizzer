@@ -108,22 +108,3 @@ nav{
         transform: translateX(0px);
     }
 }
-
-footer{
-    position: absolute;
-    bottom: -40px;
-}
-footer div{
-    height: 20px;
-    width: 100vw;
-    background: linear-gradient(transparent, #2C3E50);
-}
-.my-link{
-    height: 20px;
-    display: block;
-    width: 100vw;
-    background: none;
-    background-color: #2C3E50;
-    text-align: center;
-    color: aliceblue;
-}

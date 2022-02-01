@@ -14,4 +14,13 @@ const navSlide = () =>{
         burger.classList.toggle('toggle');
     });
 }
+const footerset = () =>{
+    const grid = document.querySelector('.grid');
+    const footer = document.querySelector('footer');
+    const header = document.querySelector('#header');
+    if(grid != null){
+        grid.style.minHeight = `calc(100vh - ${(footer.offsetHeight + header.offsetHeight + 60)}px)`;
+    }
+}
 navSlide();
+footerset();

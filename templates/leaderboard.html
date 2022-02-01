@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboards</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/leaderboard.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/footer.css')}}"/>
 </head>
 <body>
     <nav id="header" class="helloheader">
@@ -18,6 +20,12 @@
             <p class="points">Points</p>
         </div>
     </div>
+    <footer class="abs_bottom">
+        <div class="footer_p">Made with<div class="heart_container"><i class="fas fa-heart"></i></div> by <a class="footer-name" target="_blank" href="https://kaustubhvats-portfolio.netlify.app">Kaustubh Vats</a></div>
+        <div>
+            <a href="https://github.com/kaustubh-vats/quizzer" target="_blank" class="github-link"><i class="fab fa-github"></i> Github Repo</a>
+        </div>
+    </footer>
     <script type="text/javascript" src="{{url_for('static',filename='js/leaderboard.js')}}"></script>
     <script type="text/javascript">
         var myVar = myFunc({{data|safe}});
