@@ -7,7 +7,6 @@ import random
 import os
 import datetime
 
-from numpy import negative
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/quizapp.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
