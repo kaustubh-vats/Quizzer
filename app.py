@@ -1,3 +1,5 @@
+from abc import update_abstractmethods
+from turtle import update
 from flask import Flask, send_from_directory, render_template, request, url_for, redirect, session
 import json
 from flask_sqlalchemy import SQLAlchemy
@@ -334,16 +336,17 @@ def profile():
 
 @app.route('/startTest')
 def startTest():
+    update_time = datetime.datetime.now()
     if 'user' in session:
         if session['category'] == 'student':
             courseId = request.args.get('course')
             courseData = CourseData.query.filter_by(id = courseId).first()
             if courseData == None:
                 err = 'No Such Course Found'
-                return render_template('error.html',error=err, meta_title=forbidden_title, meta_desc=forbidden_desc, meta_img=forbidden_img)
+                return render_template('error.html',error=err, meta_title=forbidden_title, meta_desc=forbidden_desc, meta_img=forbidden_img, update_time = update_time)
             if courseData.schedule > datetime.datetime.utcnow():
                 err = 'Course is not started yet'
-                return render_template('error.html',error=err, meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img)
+                return render_template('error.html',error=err, meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img, update_time = update_time)
             duration = courseData.timeLimit
             courseName = courseData.name
             author = courseData.author
@@ -370,7 +373,7 @@ def startTest():
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
                 random.shuffle(data)
-                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description=description, negativeMarks=negativeMarks, meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
+                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description=description, negativeMarks=negativeMarks, meta_title=test_title, meta_desc=test_desc, meta_img=test_img, update_time = update_time)
             else:
                 dTemp = {}
                 dTemp['id'] = 'demo'
@@ -383,7 +386,7 @@ def startTest():
                 dTemp['points'] = 'demo'
                 dTemp['tags'] = 'demo'
                 data.append(dTemp)
-                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description = description,negativeMarks=negativeMarks, meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
+                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description = description,negativeMarks=negativeMarks, meta_title=test_title, meta_desc=test_desc, meta_img=test_img, update_time = update_time)
         else:
             err = 'Unauthorized Acceess'
             return render_template('error.html',error=err, meta_title=test_title, meta_desc=test_desc, meta_img=test_img), 401
@@ -392,9 +395,9 @@ def startTest():
         courseData = CourseData.query.filter_by(id = courseId).first()
         if courseData != None:
             if courseData.schedule <= datetime.datetime.utcnow():
-                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
+                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_title, meta_desc=test_desc, meta_img=test_img, update_time = update_time)
             else:
-                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img)
+                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img, update_time = update_time)
         return redirect(url_for('login'))
 
 @app.route('/saveResponse',methods=['POST'])
