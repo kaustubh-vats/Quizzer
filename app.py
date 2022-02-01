@@ -22,10 +22,10 @@ forbidden_desc = "This URL is not available or you are not logged in."
 test_desc = "Your test is live now on Quizzer the best quiz app"
 test_pending_desc = "Your test will be live soon on Quizzer the best quiz app"
 
-def_image = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/default.png?raw=true'
-forbidden_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/forbidden.png?raw=true'
-test_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/test.png?raw=true'
-test_pending_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/testPending.png?raw=true'
+def_image = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/default.jpeg?raw=true'
+forbidden_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/forbidden.jpeg?raw=true'
+test_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/test.jpeg?raw=true'
+test_pending_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/testPending.jpeg?raw=true'
 
 class LoginData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -323,12 +323,12 @@ def profile():
             userdata = LoginData.query.filter_by(username=username).first()
             if userdata == None:
                 err = 'No Such User Found'
-                return render_template('error.html',error=err, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
+                return render_template('error.html',error=err, meta_title=session['user'], meta_desc=def_desc, meta_img=def_image)
 
         for x in marksDb:
             marks += float(x.score)
 
-        return render_template('profile.html',username=username,marks=marks,courses=len(marksDb), meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
+        return render_template('profile.html',username=username,marks=marks,courses=len(marksDb), meta_title=session['user'], meta_desc=def_desc, meta_img=def_image)
     else:
         return redirect(url_for('login'))
 
@@ -392,9 +392,9 @@ def startTest():
         courseData = CourseData.query.filter_by(id = courseId).first()
         if courseData != None:
             if courseData.schedule <= datetime.datetime.utcnow():
-                return render_template('forbidden.html',errorcode="404",errormessage="Look like you're lost",errordetails="the page you are looking for not avaible!", meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
+                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
             else:
-                return render_template('forbidden.html',errorcode="404",errormessage="Look like you're lost",errordetails="the page you are looking for not avaible!", meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img)
+                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img)
         return redirect(url_for('login'))
 
 @app.route('/saveResponse',methods=['POST'])
