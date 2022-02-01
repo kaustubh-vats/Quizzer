@@ -12,6 +12,21 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.secret_key = 'ab-kaustubh-quizzer-site-cd'
 
+def_title = "Quizzer - The Best quiz app for learners"
+forbidden_title = "You lost in space"
+test_title = "Quizzer - Your test is live now"
+test_pending_title = "Quizzer - Your test will be live soon"
+
+def_desc = "A Quiz App for teachers and students to stay connected with studies."
+forbidden_desc = "This URL is not available or you are not logged in."
+test_desc = "Your test is live now on Quizzer the best quiz app"
+test_pending_desc = "Your test will be live soon on Quizzer the best quiz app"
+
+def_image = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/default.png?raw=true'
+forbidden_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/forbidden.png?raw=true'
+test_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/test.png?raw=true'
+test_pending_img = 'https://github.com/kaustubh-vats/Quizzer/blob/main/static/imgs/testPending.png?raw=true'
+
 class LoginData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), nullable=False)
@@ -80,7 +95,7 @@ def register():
         username = data['username']
         if(' ' in username):
             err = {"error":"Username Should not have Spaces"}
-            return render_template('register.html',data=err)
+            return render_template('register.html',data=err, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
         password = hashlib.sha256(str(data['password']).encode()).hexdigest()
         category = data['type']
         user = db.session.query(LoginData.id).filter_by(username=username).first()
@@ -97,8 +112,8 @@ def register():
                 return redirect(url_for('dashboard'))
         else:
             err = {"error":"Username Already Exist"}
-            return render_template('register.html',data=err)
-    return render_template('register.html',data={})
+            return render_template('register.html',data=err, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
+    return render_template('register.html',data={}, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
 
 @app.route('/login',methods = ['POST','GET'])
 def login():
@@ -107,11 +122,11 @@ def login():
         username = data['username']
         if(' ' in username):
             err = {"error":"Username Should not have Spaces"}
-            return render_template('login.html',data=err)
+            return render_template('login.html',data=err, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
         user = LoginData.query.filter_by(username=username).first()
         if(user==None):
             err = {"error":"No Userfound for this username"}
-            return render_template('login.html',data=err)
+            return render_template('login.html',data=err, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
         else:
             password = hashlib.sha256(str(data['password']).encode()).hexdigest()
             if password == user.password:
@@ -124,8 +139,8 @@ def login():
                     return redirect(url_for('dashboard'))
             else:
                 err = {'error':"Wrong Pasword"}
-                return render_template('login.html',data=err)
-    return render_template('login.html',data={})
+                return render_template('login.html',data=err, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
+    return render_template('login.html',data={}, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
 
 @app.route('/dashboard')
 def dashboard():
@@ -144,7 +159,7 @@ def dashboard():
                     data.append(dTemp)
             else:
                 data.append(dTemp)
-        return render_template('index.html',username=session['user'],data=json.dumps(data))
+        return render_template('index.html',username=session['user'],data=json.dumps(data), meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
     else:
         return redirect(url_for('login'))
 
@@ -162,7 +177,7 @@ def teacher():
             dTemp['id'] = x.id
             mydict.append(dTemp)
             
-        return render_template('teacher.html',username=session['user'],course_list=json.dumps(mydict))
+        return render_template('teacher.html',username=session['user'],course_list=json.dumps(mydict), meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
     else:
         return redirect(url_for('login'))
 
@@ -187,7 +202,7 @@ def leaderboard():
                 tData['points'] = row[1]
                 data.append(tData)
                 rank=rank+1
-            return render_template('leaderboard.html',data=data)
+            return render_template('leaderboard.html',data=data, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
         else:
             marksData = db.engine.execute(f'SELECT studentName, score from marks_data where courseId = {course} order by score desc')
             rank = 1
@@ -198,7 +213,7 @@ def leaderboard():
                 tData['points'] = row[1]
                 data.append(tData)
                 rank=rank+1
-            return render_template('leaderboard.html',data=data)
+            return render_template('leaderboard.html',data=data, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
 
     else:
         return redirect(url_for('login'))
@@ -209,7 +224,7 @@ def addnew():
         course = request.args.get('course')
         data = []
         if course == None:
-            return render_template('addnew.html',data=data,name="",timelimit="",desc="",courseId="",instruction="",warnings="",schedule=datetime.datetime.utcnow())
+            return render_template('addnew.html',data=data,name="",timelimit="",desc="",courseId="",instruction="",warnings="",schedule=datetime.datetime.utcnow(), meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
         else:
             coursedata = CourseData.query.filter_by(id=course).first();
             if(coursedata.author == session['user']):
@@ -225,14 +240,14 @@ def addnew():
                     dTemp['points'] = x.points
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
-                return render_template('addnew.html',data=data,name=coursedata.name,timelimit=coursedata.timeLimit,desc=coursedata.description,negativeMarks=coursedata.negativeMarks,courseId=str(course),instruction=coursedata.instruction, schedule=coursedata.schedule, warnings=coursedata.warnings)
+                return render_template('addnew.html',data=data,name=coursedata.name,timelimit=coursedata.timeLimit,desc=coursedata.description,negativeMarks=coursedata.negativeMarks,courseId=str(course),instruction=coursedata.instruction, schedule=coursedata.schedule, warnings=coursedata.warnings, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
             else:
                 err = 'Unauthorized Access'
-                return render_template("error.html",error=err), 401
+                return render_template("error.html",error=err, meta_title=forbidden_title, meta_desc=forbidden_desc, meta_img=forbidden_img), 401
         
     else:
         err = 'Unauthorized Access'
-        return render_template("error.html",error=err), 401
+        return render_template("error.html",error=err, meta_title=forbidden_title, meta_desc=forbidden_desc, meta_img=forbidden_img), 401
 
 @app.route('/save',methods = ['POST'])
 def saveCourse():
@@ -308,12 +323,12 @@ def profile():
             userdata = LoginData.query.filter_by(username=username).first()
             if userdata == None:
                 err = 'No Such User Found'
-                return render_template('error.html',error=err)
+                return render_template('error.html',error=err, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
 
         for x in marksDb:
             marks += float(x.score)
 
-        return render_template('profile.html',username=username,marks=marks,courses=len(marksDb))
+        return render_template('profile.html',username=username,marks=marks,courses=len(marksDb), meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
     else:
         return redirect(url_for('login'))
 
@@ -325,10 +340,10 @@ def startTest():
             courseData = CourseData.query.filter_by(id = courseId).first()
             if courseData == None:
                 err = 'No Such Course Found'
-                return render_template('error.html',error=err)
+                return render_template('error.html',error=err, meta_title=forbidden_title, meta_desc=forbidden_desc, meta_img=forbidden_img)
             if courseData.schedule > datetime.datetime.utcnow():
                 err = 'Course is not started yet'
-                return render_template('error.html',error=err)
+                return render_template('error.html',error=err, meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img)
             duration = courseData.timeLimit
             courseName = courseData.name
             author = courseData.author
@@ -355,7 +370,7 @@ def startTest():
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
                 random.shuffle(data)
-                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description=description, negativeMarks=negativeMarks)
+                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description=description, negativeMarks=negativeMarks, meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
             else:
                 dTemp = {}
                 dTemp['id'] = 'demo'
@@ -368,11 +383,18 @@ def startTest():
                 dTemp['points'] = 'demo'
                 dTemp['tags'] = 'demo'
                 data.append(dTemp)
-                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description = description,negativeMarks=negativeMarks)
+                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description = description,negativeMarks=negativeMarks, meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
         else:
             err = 'Unauthorized Acceess'
-            return render_template('error.html',error=err), 401
+            return render_template('error.html',error=err, meta_title=test_title, meta_desc=test_desc, meta_img=test_img), 401
     else:
+        courseId = request.args.get('course')
+        courseData = CourseData.query.filter_by(id = courseId).first()
+        if courseData != None:
+            if courseData.schedule > datetime.datetime.utcnow():
+                return render_template('forbidden.html',errorcode="404",errormessage="Look like you're lost",errordetails="the page you are looking for not avaible!", meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
+            else:
+                return render_template('forbidden.html',errorcode="404",errormessage="Look like you're lost",errordetails="the page you are looking for not avaible!", meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img)
         return redirect(url_for('login'))
 
 @app.route('/saveResponse',methods=['POST'])
@@ -400,11 +422,11 @@ def saveResponse():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('forbidden.html',errorcode="404",errormessage="Look like you're lost",errordetails="the page you are looking for not avaible!"), 404
+    return render_template('forbidden.html',errorcode="404",errormessage="Look like you're lost",errordetails="the page you are looking for not avaible!", meta_title=forbidden_title, meta_desc=forbidden_desc, meta_img=forbidden_img), 404
 
 @app.errorhandler(500)
 def page_not_found(e):
-    return render_template('forbidden.html',errorcode="500",errormessage="It's Not you It's Us",errordetails="Internal Server error, We regret your inconvinience"), 500
+    return render_template('forbidden.html',errorcode="500",errormessage="It's Not you It's Us",errordetails="Internal Server error, We regret your inconvinience", meta_title=forbidden_title, meta_desc=forbidden_desc, meta_img=forbidden_img), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
