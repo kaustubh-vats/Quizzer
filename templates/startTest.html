@@ -13,10 +13,15 @@
     </nav>
     <div id="main-test" class="unselectable">
         <div class="limit-container">
-            <p id='points'>Points: 0</p>
+            <div id="pointsDiv">
+                <p id='points'>Points: 0</p>
+                <p id='negativeMarks'>Negative Marks: 0</p>
+            </div>
             <p id="timelimit">00:00:00</p>
         </div>
         <p id="question">Question</p>
+        <img src="/static/imgs/volume.png" id="read" class="read_button" alt="read"/>
+        <br />
         <input type="radio" name="option" id='option1' title="option1" value="1"/>
         <label id='option1Label'>Option1</label><br />
         <input type="radio" name="option" id='option2' title="option2" value="2"/>
@@ -68,6 +73,7 @@
         var scr = myScr({{marks}});
         var cId = myCourseId({{courseId}});
         var warnGet = myWarnings({{warnings}});
+        var negMarks = myNegMarks({{negativeMarks}});
     </script>
 </body>
 </html>

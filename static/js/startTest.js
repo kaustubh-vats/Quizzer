@@ -9,6 +9,9 @@ var courseId;
 var nextbutton, prevbutton;
 var elem = document.documentElement;
 var warn = -1;
+var read_button;
+var isReading = false;
+var negativeMarks = 0;
 var speech = new SpeechSynthesisUtterance();
 var camflg = true, nodeviceflg = true, scrflg = true;
 window.speechSynthesis.onvoiceschanged = function () {
@@ -57,6 +60,16 @@ function cam() {
             alert('Please allow the webcam and microphone permissions to continue');
         });
     }
+}
+function myNegMarks(params){
+    if(params){
+        negativeMarks = params;
+        document.getElementById("negativeMarks").textContent = "Negative Marks: " + negativeMarks;
+    }
+    else{
+        negativeMarks = 0;
+    }
+    return 'kaustubh';
 }
 function myWarnings(params) {
     if (params != undefined && params != "") {
@@ -174,7 +187,8 @@ function startTest() {
     }
     mainDiv.style.display = "none";
     testDiv.style.display = "block";
-
+    read_button = document.getElementById("read");
+    read_button.addEventListener('click',readClicked);
     if (tLimit > 0) {
         activateTimer(tLimit);
     } else {
@@ -184,6 +198,16 @@ function startTest() {
         document.addEventListener("visibilitychange", warningGenerator);
     }
     openFullscreen();
+}
+function readClicked(){
+    speech.text = "Question "+(curr+1)+", "+ questions[curr]['question'] +". options are, option 1. " + questions[curr]['options']["1"] + ". option 2. " + questions[curr]['options']["2"] + ". option 3. " + questions[curr]['options']["3"] + ". option 4. " + questions[curr]['options']["4"] + ". You will get "+questions[curr]['points']+" points for this question.";
+    if(negativeMarks){
+        speech.text += ". You will get "+ negativeMarks + " penalty marks for wrong answer.";
+    }
+    else {
+        speech.text += ". There is no penalty marks for wrong answer.";
+    }
+    window.speechSynthesis.speak(speech);
 }
 function previous() {
     if (curr > 0) {

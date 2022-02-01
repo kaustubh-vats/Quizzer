@@ -44,8 +44,10 @@ button{
 input[type='radio']{
     cursor: pointer;
 }
-#points{
+#pointsDiv{
     position: absolute;
+    display: flex;
+    gap: 10px;
     left: 10px;
 }
 #question{
@@ -89,6 +91,10 @@ input[type='radio']{
     height: 100vh;
     width: 50vw;
     flex: 50%;
+}
+.read_button{
+    width: 20px;
+    height: 20px;
 }
 .centered{
     text-align: center;

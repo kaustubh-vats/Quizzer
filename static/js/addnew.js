@@ -272,6 +272,7 @@ function submitForm(){
     var timelimit = document.getElementById("timelimit");
     var instruction = document.getElementById("instruction");
     var warnings = document.getElementById("warnings");
+    var negativeMarks = document.getElementById("negativeMarks");
     if(title.value == ""){
         alert('Course Name is missing');
         return;
@@ -328,6 +329,7 @@ function submitForm(){
             'description':desc.value,
             'id':myCourseId,
             'instruction':instruction.value,
+            'negativeMarks':negativeMarks.value,
             'warnings':warnings.value,
             'schedule':schedule
         }
@@ -341,6 +343,7 @@ function submitForm(){
             'description':desc.value,
             'instruction':instruction.value,
             'warnings':warnings.value,
+            'negativeMarks':negativeMarks.value,
             'schedule':schedule
         }
         sendReq(myarr);

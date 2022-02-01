@@ -6,6 +6,8 @@ import hashlib
 import random
 import os
 import datetime
+
+from numpy import negative
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/quizapp.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -27,6 +29,7 @@ class CourseData(db.Model):
     author = db.Column(db.String(200),nullable=False)
     authorId = db.Column(db.Integer,nullable=False)
     timeLimit = db.Column(db.Integer,default=0)
+    negativeMarks = db.Column(db.Integer,default=0)
     instruction = db.Column(db.String(2000),nullable=False)
     schedule = db.Column(db.DateTime, nullable = True)
     warnings = db.Column(db.Integer, default=-1)
@@ -224,7 +227,7 @@ def addnew():
                     dTemp['points'] = x.points
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
-                return render_template('addnew.html',data=data,name=coursedata.name,timelimit=coursedata.timeLimit,desc=coursedata.description,courseId=str(course),instruction=coursedata.instruction, schedule=coursedata.schedule, warnings=coursedata.warnings)
+                return render_template('addnew.html',data=data,name=coursedata.name,timelimit=coursedata.timeLimit,desc=coursedata.description,negativeMarks=coursedata.negativeMarks,courseId=str(course),instruction=coursedata.instruction, schedule=coursedata.schedule, warnings=coursedata.warnings)
             else:
                 err = 'Unauthorized Access'
                 return render_template("error.html",error=err), 401
@@ -246,6 +249,7 @@ def saveCourse():
                 courseData.name = data['name']
                 courseData.description = data['description']
                 courseData.timeLimit = int(float(data['timelimit']))
+                courseData.negativeMarks = int(float(data['negativeMarks']))
                 schedule = datetime.datetime.utcnow()
                 if data['schedule']!="":
                     schedule = datetime.datetime.fromisoformat(data['schedule'][:-1]+"+00:00")
@@ -259,7 +263,7 @@ def saveCourse():
                 schedule = datetime.datetime.utcnow()
                 if data['schedule']!="":
                     schedule = datetime.datetime.fromisoformat(data['schedule'][:-1]+"+00:00")
-                courseData = CourseData(name=data['name'], description=data['description'], author=session['user'], authorId = session['id'],timeLimit = int(float(data['timelimit'])), instruction = data['instruction'], schedule = schedule, warnings = data['warnings'])
+                courseData = CourseData(name=data['name'], description=data['description'], author=session['user'], authorId = session['id'],timeLimit = int(float(data['timelimit'])), instruction = data['instruction'], schedule = schedule, warnings = data['warnings'], negativeMarks = int(float(data['negativeMarks'])))
                 db.session.add(courseData)
                 db.session.commit()
 
@@ -331,6 +335,9 @@ def startTest():
             courseName = courseData.name
             author = courseData.author
             instruction = courseData.instruction
+            negativeMarks = courseData.negativeMarks
+            if instruction == '':
+                instruction = 'No instruction available'
             warnings = courseData.warnings
             description = courseData.description
             mcqs = QuizData.query.filter_by(courseId = courseId).all()
@@ -350,7 +357,7 @@ def startTest():
                     dTemp['tags'] = x.tags
                     data.append(dTemp)
                 random.shuffle(data)
-                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description=description)
+                return render_template('startTest.html',timelimit=duration,courseId=courseId,data = data,marks=-1,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description=description, negativeMarks=negativeMarks)
             else:
                 dTemp = {}
                 dTemp['id'] = 'demo'
@@ -363,7 +370,7 @@ def startTest():
                 dTemp['points'] = 'demo'
                 dTemp['tags'] = 'demo'
                 data.append(dTemp)
-                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description = description)
+                return render_template('startTest.html',data=data,timelimit=duration, courseId=courseId,marks = marks.score,author=author,courseName=courseName,instruction=instruction, warnings=warnings, description = description,negativeMarks=negativeMarks)
         else:
             err = 'Unauthorized Acceess'
             return render_template('error.html',error=err), 401
@@ -376,11 +383,14 @@ def saveResponse():
         if request.method == 'POST':
             data = request.json
             courseId = data['courseId']
+            courseData = CourseData.query.filter_by(id = courseId).first()
             scr = 0
             for itr in data['resp']:
                 quizdata = QuizData.query.filter_by(id = itr['id']).first()
                 if(quizdata.correct_option == itr['resp']):
                     scr = scr + quizdata.points
+                elif(itr['resp'] != 0):
+                    scr = scr - courseData.negativeMarks
             marksdata = MarksData(studentId=session['id'], studentName=session['user'], courseId = courseId, score = scr)
             db.session.add(marksdata)
             db.session.commit()
