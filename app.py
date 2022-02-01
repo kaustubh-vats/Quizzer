@@ -393,9 +393,9 @@ def startTest():
         courseData = CourseData.query.filter_by(id = courseId).first()
         if courseData != None:
             if courseData.schedule <= datetime.datetime.utcnow():
-                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_title, meta_desc=test_desc+"\nTest Name: "+courseData.name, meta_img=test_img, update_time = update_time)
+                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_title, meta_desc=test_desc+"\nTest Name: "+courseData.name+"\nTest Creator: "+courseData.author, meta_img=test_img, update_time = update_time)
             else:
-                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img, update_time = update_time)
+                return render_template('forbidden.html',errorcode="You are not Logged in",errormessage="Look like you're lost",errordetails="You need to login with your account first", meta_title=test_pending_title, meta_desc=test_pending_desc+"\nTest Name: "+courseData.name+"\nTest Creator: "+courseData.author, meta_img=test_pending_img, update_time = update_time)
         return redirect(url_for('login'))
 
 @app.route('/saveResponse',methods=['POST'])
