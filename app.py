@@ -391,7 +391,7 @@ def startTest():
         courseId = request.args.get('course')
         courseData = CourseData.query.filter_by(id = courseId).first()
         if courseData != None:
-            if courseData.schedule > datetime.datetime.utcnow():
+            if courseData.schedule <= datetime.datetime.utcnow():
                 return render_template('forbidden.html',errorcode="404",errormessage="Look like you're lost",errordetails="the page you are looking for not avaible!", meta_title=test_title, meta_desc=test_desc, meta_img=test_img)
             else:
                 return render_template('forbidden.html',errorcode="404",errormessage="Look like you're lost",errordetails="the page you are looking for not avaible!", meta_title=test_pending_title, meta_desc=test_pending_desc, meta_img=test_pending_img)
