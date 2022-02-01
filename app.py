@@ -1,5 +1,3 @@
-from abc import update_abstractmethods
-from turtle import update
 from flask import Flask, send_from_directory, render_template, request, url_for, redirect, session
 import json
 from flask_sqlalchemy import SQLAlchemy
