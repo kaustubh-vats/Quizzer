@@ -19,7 +19,6 @@ window.speechSynthesis.onvoiceschanged = function () {
     voices.forEach((voice, i) => {
         if (voice.name.includes("(Natural) - English (India)")) {
             speech.voice = voice;
-            return;
         }
         else if (voice.name.includes("(Natural) - English (United States)")) {
             speech.voice = voice;
@@ -72,7 +71,7 @@ function myNegMarks(params){
     return 'kaustubh';
 }
 function myWarnings(params) {
-    if (params != undefined && params != "") {
+    if (params && params != "") {
         warn = params;
         if (warn < 0) {
             document.getElementById("warnings").style.display = "none";
@@ -393,7 +392,6 @@ async function activateTimer(time) {
 
 function warningGenerator() {
     if (document.visibilityState != "visible") {
-        warn--;
         if (warn <= 0) {
             submitTest();
             speech.text = "You are regularily navigating out of the test. Despite our reminders. so, we have submitted your response";
@@ -404,6 +402,7 @@ function warningGenerator() {
             window.speechSynthesis.speak(speech);
             alert("Warning #" + (warn) + "\nYou are navigating out of the test " + (warn - 1) + " warnings left");
         }
+        warn--;
     }
 }
 
