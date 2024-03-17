@@ -7,10 +7,12 @@ import os
 import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/quizapp.db"
+db_path = 'quizapp.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///quizapp.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 app.secret_key = 'ab-kaustubh-quizzer-site-cd'
+
+db = SQLAlchemy(app)
 
 def_title = "Quizzer - The Best quiz app for learners"
 forbidden_title = "You lost in space"
