@@ -1,6 +1,6 @@
 from flask import Flask, send_from_directory, render_template, request, url_for, redirect, session
 import json
-from flask_sqlalchemy import SQLAlchemy, text
+from flask_sqlalchemy import SQLAlchemy
 import hashlib
 import random
 import os
@@ -197,7 +197,7 @@ def leaderboard():
         if(course==None):
             sql = 'SELECT studentName, sum(score) FROM marks_data GROUP BY studentname Order By sum(score) DESC'
             with db.engine.begin() as conn:
-                marksData = conn.execute(text(sql)) 
+                marksData = conn.execute(db.text(sql)) 
                 rank = 1
                 for row in marksData:
                     tData = {}
@@ -210,7 +210,7 @@ def leaderboard():
         else:
             sql = f'SELECT studentName, score from marks_data where courseId = {course} order by score desc'
             with db.engine.begin() as conn:
-                marksData = conn.execute(text(sql)) 
+                marksData = conn.execute(db.text(sql)) 
                 rank = 1
                 for row in marksData:
                     tData = {}
