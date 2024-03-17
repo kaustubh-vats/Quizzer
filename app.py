@@ -1,6 +1,6 @@
 from flask import Flask, send_from_directory, render_template, request, url_for, redirect, session
 import json
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, text
 import hashlib
 import random
 import os
@@ -195,26 +195,30 @@ def leaderboard():
         course = request.args.get('course')
         data = []
         if(course==None):
-            marksData = db.engine.execute('SELECT studentName, sum(score) FROM marks_data GROUP BY studentname Order By sum(score) DESC')
-            rank = 1
-            for row in marksData:
-                tData = {}
-                tData['username'] = row[0]
-                tData['rank'] = rank
-                tData['points'] = row[1]
-                data.append(tData)
-                rank=rank+1
+            sql = 'SELECT studentName, sum(score) FROM marks_data GROUP BY studentname Order By sum(score) DESC'
+            with db.engine.begin() as conn:
+                marksData = conn.execute(text(sql)) 
+                rank = 1
+                for row in marksData:
+                    tData = {}
+                    tData['username'] = row[0]
+                    tData['rank'] = rank
+                    tData['points'] = row[1]
+                    data.append(tData)
+                    rank=rank+1
             return render_template('leaderboard.html',data=data, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
         else:
-            marksData = db.engine.execute(f'SELECT studentName, score from marks_data where courseId = {course} order by score desc')
-            rank = 1
-            for row in marksData:
-                tData = {}
-                tData['username'] = row[0]
-                tData['rank'] = rank
-                tData['points'] = row[1]
-                data.append(tData)
-                rank=rank+1
+            sql = f'SELECT studentName, score from marks_data where courseId = {course} order by score desc'
+            with db.engine.begin() as conn:
+                marksData = conn.execute(text(sql)) 
+                rank = 1
+                for row in marksData:
+                    tData = {}
+                    tData['username'] = row[0]
+                    tData['rank'] = rank
+                    tData['points'] = row[1]
+                    data.append(tData)
+                    rank=rank+1
             return render_template('leaderboard.html',data=data, meta_title=def_title, meta_desc=def_desc, meta_img=def_image)
 
     else:
