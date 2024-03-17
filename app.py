@@ -430,4 +430,4 @@ def page_not_found(e):
     return render_template('forbidden.html',errorcode="500",errormessage="It's Not you It's Us",errordetails="Internal Server error, We regret your inconvinience", meta_title=forbidden_title, meta_desc=forbidden_desc, meta_img=forbidden_img), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='0.0.0.0',debug=False)
