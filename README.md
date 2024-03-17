@@ -2,7 +2,7 @@
 
 # Quizzer
 A Quiz App for teachers and student to stay connected with studies. <br />
-[Click here](https://quizzzer.herokuapp.com/) to use the project
+[Click here](https://quizzer-00z2.onrender.com) to use the project
 
 # Features
 + Register and Login
